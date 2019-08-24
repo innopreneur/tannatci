@@ -6,7 +6,7 @@ exports.getWelcome = async (req, res, next) => {
 
 exports.postTrade = async (req, res, next) => {
   const accountAddress = req.params.accountAddress;
-  console.log(accountAddress);
+  console.log(req.body);
   // make sure that account exists
   //     if (!account) {
   //       const error = new Error("Could not find account.");
@@ -16,6 +16,7 @@ exports.postTrade = async (req, res, next) => {
   const type = req.body.type;
   const value = req.body.value;
   const txObj = req.body.txObj;
+  console.log(type,value, txObj);
   const trade = new Trade({
     type: type,
     value: value,

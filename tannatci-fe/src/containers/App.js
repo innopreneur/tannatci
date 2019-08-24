@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import logo from "./logo.svg";
 import Web3 from "web3";
 import Button from "react-bootstrap/Button";
+import axios from 'axios';
 
 import "./App.css";
 
@@ -10,10 +11,11 @@ const web3 = new Web3(Web3.givenProvider);
 class App extends Component {
   state = {
     web3Connected: false, // boolean to determine if connection to blockchain is established
-    networkName: "" // name of the Ethereum network
+    networkName: "", // name of the Ethereum network,
+    currentAccount: ""
   };
 
-  componentDidMount() {
+  async componentDidMount() {
     if (!web3.currentProvider) {
       this.setState({ web3Connected: false });
       return;
@@ -30,6 +32,13 @@ class App extends Component {
         });
     }
     console.log(web3);
+    //get user account 
+    let _accounts = await web3.eth.getAccounts();
+    if(_accounts.length > 0) {
+      this.setState({
+        currentAccount: _accounts[0]
+      })
+    }
   }
 
   getNetwork = () => {
@@ -65,6 +74,17 @@ class App extends Component {
       });
   };
 
+  submitTrade = async () => {
+    const tradeData = {type: "buy", txObj: "wohoo", value: "-4"};
+    //let signature = await web3.eth.personal.sign(JSON.stringify(tradeData), this.state.currentAccount);
+    // let hash = web3.utils.sha3(JSON.stringify(tradeData)); 
+    // console.log(hash)
+    axios.post(`api/trade/123`, tradeData )
+    .then(res => {
+      console.log(res)
+    })
+  }
+
   render() {
     return (
       <div className="App">
@@ -78,7 +98,7 @@ class App extends Component {
           <img src={logo} className="App-logo" alt="logo" />
           <p>Automated DEX trading</p>
           <p>{this.state.networkName}</p>
-          <Button>hello</Button>
+          <Button onClick={this.submitTrade}>Submit trade</Button>
         </header>
       </div>
     );

@@ -40,6 +40,8 @@ setInterval(async () => {
 
   // execute transaction for all contracts where condition is met
   const trades = await Trade.find();
+
+  console.log(price_change_24h)
   trades.forEach(async (trade) => {
     if (!trade.executed && trade.value > price_change_24h) {
       console.log("execute!")
