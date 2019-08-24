@@ -15,7 +15,7 @@ services:
       - /app/node_modules
       - ./tannatci-be:/app
     environment:
-      - MONGO_CONNECT=<insert connection string>
+      - MONGO_CONNECT=<insert>
       - STAGE=DEV
   tannatci-fe:
     build:
