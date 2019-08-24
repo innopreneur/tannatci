@@ -3,6 +3,9 @@ const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 const keys = require("./keys");
 const routes = require("./routes/routes");
+const http = require("http");
+
+const Trade = require("./model/trade");
 
 const app = express();
 app.use(bodyParser.json()); // application/json
@@ -26,6 +29,18 @@ app.use((error, req, res, next) => {
   const data = error.data;
   res.status(status).json({ message: message, data: data });
 });
+
+setInterval(async () => {
+  const trades = await Trade.find();
+
+  const req = http.get(
+    "http://api.coingecko.com//api/v3/coins/markets?vs_currency=usd&ids=ethereum&sparkline=false&price_change_percentage=24h",
+    res => {
+      console.log(res.price_change_24h);
+    }
+  );
+  return console.log(trades);
+}, 2000);
 
 mongoose
   .connect(keys.mongoConnectString)
