@@ -1,0 +1,26 @@
+version: '3'
+services:
+  nginx:
+    restart: always
+    build:
+      dockerfile: Dockerfile.dev
+      context: ./nginx
+    ports:
+      - '3050:80'
+  tannatci-be:
+    build:
+      dockerfile: Dockerfile.dev
+      context: ./tannatci-be
+    volumes:
+      - /app/node_modules
+      - ./tannatci-be:/app
+    environment:
+      - MONGO_CONNECT=<insert connection string>
+      - STAGE=DEV
+  tannatci-fe:
+    build:
+      dockerfile: Dockerfile.dev
+      context: ./tannatci-fe
+    volumes:
+      - /app/node_modules
+      - ./tannatci-fe:/app
