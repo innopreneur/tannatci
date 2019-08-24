@@ -1,40 +1,41 @@
 import React, { Component } from "react";
 import logo from "./logo.svg";
 import Web3 from "web3";
-import Button from 'react-bootstrap/Button';
+import Button from "react-bootstrap/Button";
 
 import "./App.css";
 
 const web3 = new Web3(Web3.givenProvider);
 
 class App extends Component {
-
   state = {
     web3Connected: false, // boolean to determine if connection to blockchain is established
-    networkName: '' // name of the Ethereum network
-  }
+    networkName: "" // name of the Ethereum network
+  };
 
   componentDidMount() {
     if (!web3.currentProvider) {
       this.setState({ web3Connected: false });
-      return
+      return;
     } else {
       this.setState({ web3Connected: true });
 
       // Identify which network MetaMask is connected to:
-      this.getNetwork()
+      this.getNetwork();
 
       // Make sure this gets updated when the user switches networks with MetaMask
-      web3.currentProvider.isMetaMask && web3.currentProvider.publicConfigStore.on('update', () => {
-        this.getNetwork()
-      })
+      web3.currentProvider.isMetaMask &&
+        web3.currentProvider.publicConfigStore.on("update", () => {
+          this.getNetwork();
+        });
     }
-    console.log(web3)
+    console.log(web3);
   }
 
   getNetwork = () => {
-    let networkName = '';
-    web3.eth.net.getId()
+    let networkName = "";
+    web3.eth.net
+      .getId()
       .then(netId => {
         switch (netId) {
           case 1:
@@ -57,20 +58,27 @@ class App extends Component {
         }
         this.setState({
           networkName
-        })
+        });
       })
       .catch(err => {
         console.log(err);
-      })
-  }
+      });
+  };
 
   render() {
     return (
       <div className="App">
         <header className="App-header">
+          <link
+            rel="stylesheet"
+            href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+            integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+            crossOrigin="anonymous"
+          />
           <img src={logo} className="App-logo" alt="logo" />
           <p>Automated DEX trading</p>
           <p>{this.state.networkName}</p>
+          <Button>hello</Button>
         </header>
       </div>
     );

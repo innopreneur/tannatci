@@ -15,7 +15,7 @@ services:
       - /app/node_modules
       - ./tannatci-be:/app
     environment:
-      - MONGO_CONNECT=<insert>
+      - MONGO_CONNECT=
       - STAGE=DEV
   tannatci-fe:
     build:
@@ -24,3 +24,9 @@ services:
     volumes:
       - /app/node_modules
       - ./tannatci-fe:/app
+  tannatci-ganache:
+    build:
+      dockerfile: Dockerfile.dev
+      context: ./tannatci-ganache
+    ports:
+      - '8545:8545'
