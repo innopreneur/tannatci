@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import logo from "./logo.svg";
 import Web3 from "web3";
+import Button from 'react-bootstrap/Button';
 
 import "./App.css";
 
