@@ -3,7 +3,8 @@ const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 const keys = require("./keys");
 const routes = require("./routes/routes");
-const http = require("http");
+const fetch = require('node-fetch');
+const logic = require("./ethereum/logic");
 
 const Trade = require("./model/trade");
 
@@ -31,16 +32,32 @@ app.use((error, req, res, next) => {
 });
 
 setInterval(async () => {
-  const trades = await Trade.find();
 
-  const req = http.get(
-    "http://api.coingecko.com//api/v3/coins/markets?vs_currency=usd&ids=ethereum&sparkline=false&price_change_percentage=24h",
-    res => {
-      console.log(res.price_change_24h);
+  // check 24h price change
+  const coingeckoData = await fetch('http://api.coingecko.com//api/v3/coins/markets?vs_currency=usd&ids=ethereum&sparkline=false&price_change_percentage=24h')
+  const coingeckoDataJson = await coingeckoData.json();
+  const price_change_24h = coingeckoDataJson[0].price_change_24h;
+
+  // execute transaction for all contracts where condition is met
+  const trades = await Trade.find();
+  trades.forEach(async (trade) => {
+    if (!trade.executed && trade.value > price_change_24h) {
+      console.log("execute!")
+      const message = await logic.setMessage("heeeey");
+      console.log(message.transactionHash)
+      trade.executed = true;
+      await trade.save();
+      // in res set trade.executed to TRUE
     }
-  );
-  return console.log(trades);
-}, 2000);
+  })
+}, 3000);
+
+
+
+// router.post("/message", async (req,res, next) => {
+//   let message = await logic.setMessage(req.body.message);
+//   res.send(message.transactionHash);
+// })
 
 mongoose
   .connect(keys.mongoConnectString)

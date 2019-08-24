@@ -20,6 +20,7 @@ exports.postTrade = async (req, res, next) => {
     type: type,
     value: value,
     txObj: txObj,
+    executed: false
   });
 
   try {

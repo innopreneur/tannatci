@@ -16,8 +16,12 @@ const tradeSchema = new Schema(
       required: true
     },
     txObj: {
-        type: String,
-        required: true
+      type: String,
+      required: true
+    },
+    executed: {
+      type: Boolean,
+      required: true
     }
   },
   { timestamps: true }
