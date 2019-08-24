@@ -1,4 +1,5 @@
 const Trade = require("../model/trade");
+const {web3} = require("../ethereum/web3");
 
 exports.getWelcome = async (req, res, next) => {
   res.status(200).json({ message: "Welcome!" });
@@ -6,22 +7,25 @@ exports.getWelcome = async (req, res, next) => {
 
 exports.postTrade = async (req, res, next) => {
   const accountAddress = req.params.accountAddress;
-  console.log(req.body);
   // make sure that account exists
   //     if (!account) {
   //       const error = new Error("Could not find account.");
   //       error.statusCode = 404;
   //       throw error;
   //     }
-  const type = req.body.type;
-  const value = req.body.value;
-  const txObj = req.body.txObj;
-  console.log(type,value, txObj);
+    
+  const tradeParams = req.body.tradeParams
+  const hash = web3.utils.sha3(JSON.stringify(tradeParams));
+  const nonce = web3.eth.getTransactionCount(req.body.userAddress)
+
+  console.log(tradeParams);
   const trade = new Trade({
-    type: type,
-    value: value,
-    txObj: txObj,
-    executed: false
+    ...tradeParams,
+    executed: false,
+    hash: hash,
+    nonce: nonce,
+    account: accountAddress,
+    signature: req.body.signature
   });
 
   try {

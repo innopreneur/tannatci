@@ -45,9 +45,13 @@ setInterval(async () => {
   trades.forEach(async (trade) => {
     if (!trade.executed && trade.value > price_change_24h) {
       console.log("execute!")
-      const message = await logic.setMessage("heeeey");
-      console.log(message.transactionHash)
+      const dexagData = await fetch(`https://api.dex.ag/trade?from=ETH&to=DAI&fromAmount=${trade.amount}&dex=best`)
+      const dexagDataJson = await dexagData.json();
+      console.log(dexagDataJson)
+      // console.log(message.transactionHash)
+      trade.dexag = dexagDataJson.trade
       trade.executed = true;
+      const message = await logic.setMessage("heeeey");
       await trade.save();
       // in res set trade.executed to TRUE
     }

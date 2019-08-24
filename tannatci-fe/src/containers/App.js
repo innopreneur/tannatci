@@ -75,10 +75,9 @@ class App extends Component {
   };
 
   submitTrade = async () => {
-    const tradeData = {type: "buy", txObj: "wohoo", value: "-4"};
-    //let signature = await web3.eth.personal.sign(JSON.stringify(tradeData), this.state.currentAccount);
-    // let hash = web3.utils.sha3(JSON.stringify(tradeData)); 
-    // console.log(hash)
+    const tradeParams = {type: "buy", amount: "1", value: "-5"};
+    let signature = await web3.eth.personal.sign(JSON.stringify(tradeParams), this.state.currentAccount);
+    const tradeData = {tradeParams: tradeParams, signature: signature, userAddress: this.state.currentAccount }
     axios.post(`api/trade/123`, tradeData )
     .then(res => {
       console.log(res)
