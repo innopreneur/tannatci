@@ -81,7 +81,7 @@ class App extends Component {
     if (this.state.latestTx != null) {
       //start loading
       console.log("in progress")
-      let txReceipt = await window.web3.eth.getTransactionReceipt(latestTx);
+      let txReceipt = await window.web3.eth.getTransactionReceipt(this.state.latestTx);
       if(txReceipt != null){
         this.setState({latestTx: null, txInProgress: false})
         console.log("not in progress")
