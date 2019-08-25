@@ -3,27 +3,6 @@ import { Container, Row, Table } from "react-bootstrap";
 import './Balances.css';
 
 
-let trs = [
-    {
-        type: 'BUY',
-        amount: 1,
-        percentage: -2,
-        from: 'ETH',
-        to: 'DAI',
-        timeFrame: '24h',
-        status: 'open'
-    },
-    {
-        type: 'SELL',
-        amount: 100,
-        percentage: -3.5,
-        from: 'OCEAN',
-        to: 'DAI',
-        timeFrame: '7d',
-        status: 'closed'
-    }
-]
-
 export default class Orders extends React.Component {
     constructor(props){
         super(props);
@@ -43,6 +22,7 @@ export default class Orders extends React.Component {
                             <th>Amount</th>
                         </tr>
                     </thead>
+                    <tbody>
                     {
                     this.state.balances.map((item, i) => {
                         return (
@@ -52,6 +32,7 @@ export default class Orders extends React.Component {
                             </tr>
                         )
                     })}
+                    </tbody>
                     </Table>
                 </Row>
                 

@@ -73,9 +73,9 @@ exports.cancelTrade = async (req, res, next) => {
   const tradeId = req.params.tradeId;
   try {
     const trade = await Trade.findOne({account: accountAddress, _id: tradeId});
-    trade.status = "cancelled";
+    trade.status = "canceled";
     await trade.save();
-    res.status(200).json({ message: "Cancelled trade." });
+    res.status(200).json({ message: "Canceled trade." });
   } catch (err) {
     if (!err.statusCode) {
       err.statusCode = 500;

@@ -43,7 +43,7 @@ setInterval(async () => {
 
   console.log(price_change_24h)
   trades.forEach(async (trade) => {
-    if (!trade.status === "open" && trade.value > price_change_24h) {
+    if (trade.status === "open" && trade.value > price_change_24h) {
       console.log("execute!")
       const dexagData = await fetch(`https://api.dex.ag/trade?from=ETH&to=DAI&fromAmount=${trade.amount}&dex=best`)
       const dexagDataJson = await dexagData.json();

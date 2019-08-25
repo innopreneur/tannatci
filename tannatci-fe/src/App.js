@@ -57,7 +57,7 @@ class App extends Component {
   getFactoryContract = async () => {
     const factory = await new web3.eth.Contract(
       factoryAbi,
-      "0x4f9a9Cf12EF461f6aE8bbFFF1c93C449A110991d"
+      "0x908ABFB19e60C04AA4314fB640D4D12F8e850e34"
     );
     this.setState({factory})
   }
@@ -66,7 +66,6 @@ class App extends Component {
     if (tradeAccount) {
       this.setState({account: tradeAccount});
     }
-    console.log('tradeAccount of user: ', tradeAccount);
   }
 
   createAccount = async () => {
@@ -122,7 +121,7 @@ class App extends Component {
     // fromToken: "ETH"
     // toToken: "ETH"
     // tradeType: "Buy"
-    const tradeParams = { type: "buy", amount: "1", value: "-2" };
+    const tradeParams = { type: "buy", amount: "1", value: "-4" };
     const hash = web3.utils.sha3(JSON.stringify(tradeParams));
 
     let signature = await web3.eth.personal.sign(
@@ -161,7 +160,7 @@ class App extends Component {
             <p>Your Account: {this.state.account}</p>
         </Row>
         <Row>
-          <Navbar ethBalance={this.state.balance}/>
+          <Navbar ethBalance={this.state.balance} account={this.state.account}/>
         </Row>
       </Container>
     )
