@@ -24,7 +24,7 @@ npm start
 
 For development, the `tannatci-be/`, `tannatci-fe/` and `tannatci-ganache/` directories have their own docker containers, which are configured via the `docker-compose.yml` file.
 
-The client server is spun up at `localhost:3050` and it proxies internally to the server using the linked name as `server:5000`.
+The client server is spun up at `localhost:3050`.
 
 The local directories are mounted into the containers, so changes will reflect immediately. However, changes to package.json will likely need to a rebuild: `docker-compose down && docker-compose build && docker-compose up`.
 
