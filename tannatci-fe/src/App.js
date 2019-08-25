@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import Web3 from "web3";
 import NewOrder from "./components/NewOrder";
 import NewAccount from "./components/NewAccount";
+import Orders from "./components/Orders";
+import Navbar from "./components/Navbar";
 import "./App.css";
 import Logo from "./components/Logo";
 import Account from "./components/Account";
@@ -43,12 +45,10 @@ class App extends Component {
       if (_accounts.length > 0) {
         let balance = await this.getBalance(_accounts[0]);
         this.setState({ currentAccount: _accounts[0], balance });
-        
       }
 
       await this.getFactoryContract()
       await this.getAccount()
-
       
     }
     
@@ -153,12 +153,17 @@ class App extends Component {
     });
   };
 
-  _renderNewOrder(){
+  _renderExisitingUser(){
     return (
+      <Container>
         <Row className="newOrderContainer">
             <NewOrder onSubmit={this.submitTrade.bind(this)}/>
             <p>Your Account: {this.state.account}</p>
         </Row>
+        <Row>
+          <Navbar ethBalance={this.state.balance}/>
+        </Row>
+      </Container>
     )
   }
 
@@ -189,7 +194,7 @@ class App extends Component {
           </Row>
           {
             this.state.account && this.state.account !== "0x0000000000000000000000000000000000000000" ? 
-            this._renderNewOrder() : 
+            this._renderExisitingUser() : 
             this._renderNewAccount()
             }
         </Container>
