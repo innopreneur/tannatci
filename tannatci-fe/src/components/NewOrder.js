@@ -112,9 +112,9 @@ export default class NewOrder extends React.Component {
     newOrder['to'] = order.toToken;
     newOrder['amount'] = order.fromAmount;
     if(order.condition == 'goes up by'){
-      newOrder['percentage'] = order.changePercent;
+      newOrder['value'] = order.changePercent;
     } else {
-      newOrder['percentage'] = `-${order.changePercent}`;
+      newOrder['value'] = `-${order.changePercent}`;
     }
     newOrder['timeFrame'] = '24h';
     return newOrder;

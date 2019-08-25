@@ -13,9 +13,9 @@ exports.postTrade = async (req, res, next) => {
   //       error.statusCode = 404;
   //       throw error;
   //     }
-    
+  
   const tradeParams = req.body.tradeParams
-
+  console.log(tradeParams);
   const trade = new Trade({
     ...tradeParams,
     status: "open",

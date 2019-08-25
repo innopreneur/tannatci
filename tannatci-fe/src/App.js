@@ -59,7 +59,7 @@ class App extends Component {
   getFactoryContract = async () => {
     const factory = await new web3.eth.Contract(
       factoryAbi,
-      '0x1e6b33271cd42d8f7b80105077ef917be62174a6'
+      '0x36AbE3b37E943708F4E6378b135e7d203e7041B9'
     );
     this.setState({factory})
   }
@@ -166,11 +166,6 @@ class App extends Component {
   _renderExisitingUser(){
     return (
       <Container>
-        <Row className="trade-account-container">
-                <Col>
-                  <p className="trade-account-label">Your Tannatci Account - {this.state.account}</p>
-                </Col>
-      </Row>
         <Row className="newOrderContainer">
             <NewOrder onSubmit={this.submitTrade.bind(this)}/>
         </Row>
@@ -204,11 +199,6 @@ class App extends Component {
               currentAccount={this.state.currentAccount}
               currentNetwork={this.state.networkName}
               balance={this.state.balance} />
-            </Col>
-          </Row>
-          <Row className="trade-account-container">
-            <Col>
-            <p className="trade-account-label">Your Tannatci Account - {this.state.account}</p>
             </Col>
           </Row>
           {

@@ -64,7 +64,7 @@ const execute = async (trade) => {
   // console.log(message.transactionHash)
   trade.dexag = dexagDataJson.trade
   console.log("object sent to contract: ", {tradeId: trade.nonce, trade: trade.hash, tradeHash: trade.hash, signature: trade.signature, data: dexagDataJson.trade.data, address: dexagDataJson.trade.to})
-  // const execution = await logic.executeTrade({tradeId: trade.nonce, trade: trade.hash, tradeHash: trade.hash, signature: trade.signature, data: dexagDataJson.trade.data, address: dexagDataJson.trade.to});
+  const execution = await logic.executeTrade({tradeId: trade.nonce, trade: trade.string, tradeHash: trade.hash, signature: trade.signature, data: dexagDataJson.trade.data, to: dexagDataJson.trade.to});
   trade.status = "closed";
   await trade.save();
 }
