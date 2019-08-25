@@ -1,8 +1,8 @@
 <h1 align="center">Taṉṉāṭci</h1>
-# Taṉṉāṭci
-:robot: Automated condition-based DEX trading :rocket:
 
-> 🐠 Landing page for Ocean Protocol https://dsfdsf.com
+:robot: Automated condition-based DEX trading :rocket: 🛸
+
+> 🖲 🕹 Landing page for Ocean Protocol https://dsfdsf.com
 
 ### This project is developed as part of ETHBerlin Hackathon.
 
