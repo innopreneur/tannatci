@@ -46,18 +46,18 @@ setInterval(async () => {
     if (trade.status === "open") {
       if(trade.value < 0) {
         if(price_change_24h < trade.value ) {
-          execute();
+          execute(trade);
         }
       } else {
         if(price_change_24h > trade.value) {
-          execute();
+          execute(trade);
         }
       }
     }
   })
 }, 3000);
 
-const execute = async () => {
+const execute = async (trade) => {
   console.log("execute!")
   const dexagData = await fetch(`https://api.dex.ag/trade?from=ETH&to=DAI&fromAmount=${trade.amount}&dex=best`)
   const dexagDataJson = await dexagData.json();
