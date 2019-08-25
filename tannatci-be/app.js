@@ -42,22 +42,32 @@ setInterval(async () => {
   const trades = await Trade.find();
 
   console.log(price_change_24h)
-  trades.forEach(async (trade) => {
-    if (trade.status === "open" && trade.value > price_change_24h) {
-      console.log("execute!")
-      const dexagData = await fetch(`https://api.dex.ag/trade?from=ETH&to=DAI&fromAmount=${trade.amount}&dex=best`)
-      const dexagDataJson = await dexagData.json();
-      // console.log(message.transactionHash)
-      trade.dexag = dexagDataJson.trade
-      console.log("object sent to contract: ", {tradeId: trade.nonce, trade: trade.hash, tradeHash: trade.hash, signature: trade.signature, data: dexagDataJson.trade.data, address: dexagDataJson.trade.to})
-      // const execution = await logic.executeTrade({tradeId: trade.nonce, trade: trade.hash, tradeHash: trade.hash, signature: trade.signature, data: dexagDataJson.trade.data, address: dexagDataJson.trade.to});
-      trade.status = "closed";
-      await trade.save();
+  trades.forEach((trade) => {
+    if (trade.status === "open") {
+      if(trade.value < 0) {
+        if(price_change_24h < trade.value ) {
+          execute();
+        }
+      } else {
+        if(price_change_24h > trade.value) {
+          execute();
+        }
+      }
     }
   })
 }, 3000);
 
-
+const execute = async () => {
+  console.log("execute!")
+  const dexagData = await fetch(`https://api.dex.ag/trade?from=ETH&to=DAI&fromAmount=${trade.amount}&dex=best`)
+  const dexagDataJson = await dexagData.json();
+  // console.log(message.transactionHash)
+  trade.dexag = dexagDataJson.trade
+  console.log("object sent to contract: ", {tradeId: trade.nonce, trade: trade.hash, tradeHash: trade.hash, signature: trade.signature, data: dexagDataJson.trade.data, address: dexagDataJson.trade.to})
+  // const execution = await logic.executeTrade({tradeId: trade.nonce, trade: trade.hash, tradeHash: trade.hash, signature: trade.signature, data: dexagDataJson.trade.data, address: dexagDataJson.trade.to});
+  trade.status = "closed";
+  await trade.save();
+}
 
 // router.post("/message", async (req,res, next) => {
 //   let message = await logic.setMessage(req.body.message);

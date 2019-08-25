@@ -51,8 +51,6 @@ export default class Orders extends React.Component {
   }
 
   render() {
-    let cancelColumn;
-    let cancelCell;
     console.log(this.state.selectedType)
     return (
       <Container className="order-container">
