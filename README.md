@@ -26,6 +26,8 @@ For development, the `tannatci-be/`, `tannatci-fe/` and `tannatci-ganache/` dire
 
 The client server is spun up at `localhost:3050`.
 
+The app deployed a smart contract. The factory contract is `0x02572BcD251d03e04594f5cb80e358ecF5DaB7AA`
+
 The local directories are mounted into the containers, so changes will reflect immediately. However, changes to package.json will likely need to a rebuild: `docker-compose down && docker-compose build && docker-compose up`.
 
 ### Notes
