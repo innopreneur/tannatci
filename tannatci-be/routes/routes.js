@@ -23,6 +23,8 @@ router.post("/deployFactory", async function(req, res, next) {
     res.send(JSON.parse(result).address); 
 });
 
+router.get("/:accountAddress", controller.getTrades);
+
 
 
 module.exports = router;

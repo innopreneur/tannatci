@@ -50,3 +50,21 @@ exports.postTrade = async (req, res, next) => {
     next(err);
   }
 };
+
+exports.getTrades = async (req, res, next) => {
+  const accountAddress = req.params.accountAddress;
+  try {
+    const allTrades = await Trade.find({account: accountAddress});
+    res.status(200).json({
+      message: "Fetched trades successfully",
+      trades: allTrades
+    });
+  } catch (err) {
+    if (!err.statusCode) {
+      err.statusCode = 500;
+    }
+    next(err);
+  }
+
+}
+

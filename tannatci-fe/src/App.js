@@ -57,7 +57,7 @@ class App extends Component {
   getFactoryContract = async () => {
     const factory = await new web3.eth.Contract(
       factoryAbi,
-      "0xc60FE51D313A157007747FC05ac4918Bb8cD685D"
+      "0xB621d299a16B583f6F4fb0D96Bbe0C486AB1DB5F"
     );
     this.setState({factory})
   }
@@ -170,12 +170,6 @@ class App extends Component {
             />
       </Row>
     )
-  }
-
-  handleAccountCreation(status){
-    if(status.isCreated){
-      this.setState({hasAccount: true})
-    }
   }
 
   render() {
