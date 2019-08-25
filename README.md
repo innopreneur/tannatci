@@ -2,7 +2,6 @@
 
 :robot: Automated condition-based DEX trading :rocket: 🛸
 
-🖲 🕹 Demo for the tannatci app https://tannatci.com
 
 ### This project is developed as part of ETHBerlin Hackathon.
 
