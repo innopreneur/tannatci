@@ -2,7 +2,6 @@ import React from "react";
 import { Container, Row, Col } from "react-bootstrap";
 import CDropDown from "./CDropDown";
 import CInput from "./CInput";
-import CLabel from "./CLabel";
 import CButton from "./CButton";
 import "./NewOrder.css";
 
@@ -21,7 +20,7 @@ let tokens = {
 let condition = {
   title: "goes up by",
   actions: ["goes up by", "goes down by"],
-  variant: "outline-secondary"
+  variant: "outline-warning"
 };
 
 let fromAmount = {
@@ -134,7 +133,7 @@ export default class NewOrder extends React.Component {
             <CDropDown onSelect={this.getFromToken.bind(this)} {...tokens} />
           </Col>
           <Col lg={2.1}>
-            <CLabel label="as soon as the price of" />
+            <h5>as soon as the price of</h5>
           </Col>
           <Col>
             <CDropDown onSelect={this.getToToken.bind(this)} {...tokens} />
@@ -149,7 +148,7 @@ export default class NewOrder extends React.Component {
             />
           </Col>
           <Col>
-            <CLabel label="% within the last" />
+            <h5>% within</h5>
           </Col>
           <Col>
             <CDropDown

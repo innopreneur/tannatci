@@ -1,0 +1,17 @@
+.new-account-container {
+  margin-top: 5rem;
+}
+
+.create-account-btn {
+  margin-top: 3rem;
+}
+
+.new-account-label {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-size: 1.2rem;
+  color: gray;
+}
+
+.new-account-label-row {
+  padding: 4rem;
+}

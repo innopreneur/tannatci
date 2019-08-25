@@ -5,8 +5,6 @@ import "./Logo.css";
 
 export default function Logo() {
   return (
-    <Container className="logo-container">
-      <Image src={logo} />
-    </Container>
+      <Image className="logo-container" src={logo} />
   );
 }
