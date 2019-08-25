@@ -2,7 +2,7 @@
 
 :robot: Automated condition-based DEX trading :rocket: 🛸
 
-> 🖲 🕹 Landing page for tannatci https://dsfdsf.com
+🖲 🕹 Demo for the tannatci app https://tannatci.com
 
 ### This project is developed as part of ETHBerlin Hackathon.
 
@@ -24,7 +24,7 @@ npm start
 
 For development, the `tannatci-be/`, `tannatci-fe/` and `tannatci-gannache/` directories have their own docker containers, which are configured via the `docker-compose.yml` file.
 
-The client server is spun up at `localhost:3050` and it proxies internally to the server using the linked name as `server:8080`.
+The client server is spun up at `localhost:3050` and it proxies internally to the server using the linked name as `server:5000`.
 
 The local directories are mounted into the containers, so changes will reflect immediately. However, changes to package.json will likely need to a rebuild: `docker-compose down && docker-compose build && docker-compose up`.
 
@@ -43,16 +43,6 @@ Then inside:
 ```
 npm install --save <new_dependency>
 ```
-
-## Production
-
-```
-docker-compose -f docker-compose.prod.yml up
-```
-
-For production, this uses the Dockerfile at the root of the repo. It creates a static build of the client React app and runs Express inside server, which handles both the API and serving of React files.
-
-As a result, different code is executing to serve the React files, but all of the API calls should remain the same. The difference between development and production isn’t ideal, but it does offer the simplicity of having the entire app run in one server on one machine.
 
 
 
