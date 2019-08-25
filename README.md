@@ -5,6 +5,7 @@
 
 ### This project is developed as part of ETHBerlin Hackathon.
 
+
 ## Development
 
 The app is a single page React app, created with [`create-react-app`](https://github.com/facebook/create-react-app).
