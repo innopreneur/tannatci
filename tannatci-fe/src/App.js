@@ -206,7 +206,11 @@ class App extends Component {
               balance={this.state.balance} />
             </Col>
           </Row>
-          
+          <Row className="trade-account-container">
+            <Col>
+            <p className="trade-account-label">Your Tannatci Account - {this.state.account}</p>
+            </Col>
+          </Row>
           {
             this.state.account && this.state.account !== "0x0000000000000000000000000000000000000000" ? 
             this._renderExisitingUser() : 

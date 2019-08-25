@@ -15,7 +15,7 @@ services:
       - /app/node_modules
       - ./tannatci-be:/app
     environment:
-      - MONGO_CONNECT=mongodb+srv://achill:kny4EBWhvh89X7Df@cluster0-xfiey.mongodb.net/tannatci?retryWrites=true
+      - MONGO_CONNECT=
       - STAGE=DEV
   tannatci-fe:
     build:
