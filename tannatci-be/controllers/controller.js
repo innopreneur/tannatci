@@ -15,15 +15,13 @@ exports.postTrade = async (req, res, next) => {
   //     }
     
   const tradeParams = req.body.tradeParams
-  const hash = web3.utils.sha3(JSON.stringify(tradeParams));
-  const nonce = web3.eth.getTransactionCount(req.body.userAddress)
 
-  console.log(tradeParams);
   const trade = new Trade({
     ...tradeParams,
     executed: false,
-    hash: hash,
-    nonce: nonce,
+    hash: req.body.hash,
+    string: JSON.stringify(tradeParams),
+    nonce: req.body.nonce,
     account: accountAddress,
     signature: req.body.signature
   });

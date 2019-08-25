@@ -47,11 +47,11 @@ setInterval(async () => {
       console.log("execute!")
       const dexagData = await fetch(`https://api.dex.ag/trade?from=ETH&to=DAI&fromAmount=${trade.amount}&dex=best`)
       const dexagDataJson = await dexagData.json();
-      console.log(dexagDataJson)
       // console.log(message.transactionHash)
       trade.dexag = dexagDataJson.trade
+      console.log("object sent to contract: ", {tradeId: trade.nonce, trade: trade.hash, tradeHash: trade.hash, signature: trade.signature, data: dexagDataJson.trade.data, address: dexagDataJson.trade.to})
+      // const execution = await logic.executeTrade({tradeId: trade.nonce, trade: trade.hash, tradeHash: trade.hash, signature: trade.signature, data: dexagDataJson.trade.data, address: dexagDataJson.trade.to});
       trade.executed = true;
-      const message = await logic.setMessage("heeeey");
       await trade.save();
       // in res set trade.executed to TRUE
     }

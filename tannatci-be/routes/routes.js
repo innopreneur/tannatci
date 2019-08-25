@@ -11,6 +11,7 @@ router.post('/trade/:accountAddress', controller.postTrade);
 
 router.post("/deploy", async function(req, res, next) {
     const result = await deploy("Hello World!");
+    console.log(result);
     res.send(JSON.parse(result).address); 
 });
 

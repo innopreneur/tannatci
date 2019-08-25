@@ -161,7 +161,8 @@ export default class NewOrder extends React.Component {
         <Row className="create-order-btn">
           <Col>
             <CButton
-              onClick={this.submitOrder.bind(this)}
+              onClick={this.props.onSubmit}
+              // onClick={this.submitOrder.bind(this)}
               {...createOrderProps}
             >
               Create Order

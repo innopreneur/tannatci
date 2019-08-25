@@ -19,6 +19,7 @@
     "web3": "^1.2.1"
   },
   "devDependencies": {
+    "ngrok": "^3.2.5",
     "nodemon": "^1.19.1"
   }
 }

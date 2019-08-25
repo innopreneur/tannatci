@@ -27,6 +27,14 @@ const tradeSchema = new Schema(
       type: String,
       required: true
     },
+    string: {
+      type: String,
+      required: true
+    },
+    nonce: {
+      type: Number,
+      required: true
+    },
     account: {
       type: String,
       required: true

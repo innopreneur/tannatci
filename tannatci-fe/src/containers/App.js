@@ -2,11 +2,12 @@ import React, { Component } from "react";
 import logo from "./logo.svg";
 import Web3 from "web3";
 import Button from "react-bootstrap/Button";
-import axios from 'axios';
+import axios from "axios";
+import ABI from "../abi/TradeAccount.json";
 
 import "./App.css";
 
-const web3 = new Web3(Web3.givenProvider);
+const web3 = new Web3(Web3.givenProvider)
 
 class App extends Component {
   state = {
@@ -32,12 +33,12 @@ class App extends Component {
         });
     }
     console.log(web3);
-    //get user account 
+    //get user account
     let _accounts = await web3.eth.getAccounts();
-    if(_accounts.length > 0) {
+    if (_accounts.length > 0) {
       this.setState({
         currentAccount: _accounts[0]
-      })
+      });
     }
   }
 
@@ -75,14 +76,36 @@ class App extends Component {
   };
 
   submitTrade = async () => {
-    const tradeParams = {type: "buy", amount: "1", value: "-5"};
-    let signature = await web3.eth.personal.sign(JSON.stringify(tradeParams), this.state.currentAccount);
-    const tradeData = {tradeParams: tradeParams, signature: signature, userAddress: this.state.currentAccount }
-    axios.post(`api/trade/123`, tradeData )
-    .then(res => {
-      console.log(res)
-    })
-  }
+    const tradeParams = { type: "buy", amount: "1", value: "-2" };
+    const hash = web3.utils.sha3(JSON.stringify(tradeParams));
+
+    let signature = await web3.eth.personal.sign(
+      JSON.stringify(tradeParams),
+      this.state.currentAccount
+    );
+    // send transaction to store trade
+
+    const contract = await new web3.eth.Contract(
+      ABI,
+      "0x3867E57773689a4c0BD84835A5A070b704bDfb91"
+    );
+
+    const nonce = await web3.eth.getTransactionCount(this.state.currentAccount);
+
+    await contract.methods.storeTrade(hash, nonce).send({
+      from: this.state.currentAccount
+    });
+    const tradeData = {
+      tradeParams: tradeParams,
+      signature: signature,
+      userAddress: this.state.currentAccount,
+      nonce: nonce,
+      hash: hash
+    };
+    axios.post(`api/trade/123`, tradeData).then(res => {
+      console.log(res);
+    });
+  };
 
   render() {
     return (

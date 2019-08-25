@@ -1,12 +1,13 @@
 import React, { Component } from "react";
 import Web3 from "web3";
-import Button from "react-bootstrap/Button";
 import NewOrder from "./components/NewOrder";
 import "./App.css";
-import Balance from "./containers/balance";
+// import Balance from "./containers/balance";
 import Logo from "./components/Logo";
 import Account from "./components/Account";
 import { Container, Row, Col } from "react-bootstrap";
+import axios from "axios";
+import ABI from "./abi/TradeAccount.json";
 
 const web3 = new Web3(Web3.givenProvider);
 
@@ -75,6 +76,38 @@ class App extends Component {
       });
   };
 
+  submitTrade = async () => {
+    const tradeParams = { type: "buy", amount: "1", value: "-2" };
+    const hash = web3.utils.sha3(JSON.stringify(tradeParams));
+
+    let signature = await web3.eth.personal.sign(
+      JSON.stringify(tradeParams),
+      this.state.currentAccount
+    );
+    // send transaction to store trade
+
+    const contract = await new web3.eth.Contract(
+      ABI,
+      "0x3867E57773689a4c0BD84835A5A070b704bDfb91"
+    );
+
+    const nonce = await web3.eth.getTransactionCount(this.state.currentAccount);
+
+    await contract.methods.storeTrade(hash, nonce).send({
+      from: this.state.currentAccount
+    });
+    const tradeData = {
+      tradeParams: tradeParams,
+      signature: signature,
+      userAddress: this.state.currentAccount,
+      nonce: nonce,
+      hash: hash
+    };
+    axios.post(`api/trade/123`, tradeData).then(res => {
+      console.log(res);
+    });
+  };
+
   render() {
     return (
       <div className="App">
@@ -90,7 +123,7 @@ class App extends Component {
             </Col>
           </Row>
           <Row className="newOrderContainer">
-            <NewOrder />
+            <NewOrder onSubmit={this.submitTrade} />
           </Row>
         </Container>
       </div>
