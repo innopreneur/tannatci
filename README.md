@@ -13,7 +13,7 @@ The app is a single page React app, created with [`create-react-app`](https://gi
 To start development, clone this repo, install all dependencies, and start the development server:
 
 ```bash
-git clone --recurse-submodules git@github.com:oceanprotocol/site.git
+git clone git@github.com:innoprenuer/tannatci.git
 cd tannatci/
 
 docker-compose up
