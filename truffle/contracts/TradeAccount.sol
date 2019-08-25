@@ -3,6 +3,11 @@ pragma solidity ^0.5.0;
 /** Trade account mapped to and owned by user
  */
 contract TradeAccount {
+
+    event TradeExecutedSuccessfully(uint tradeId);
+    event TokenWithdrawn(address token, uint amount);
+    event TradeStoredSuccessfully(uint tradeId);
+
     address public owner;
     mapping(uint => bytes32) public trades;
 
@@ -114,12 +119,14 @@ contract TradeAccount {
             require(address(this).balance > amount, 'not enough ETH balance');
             //send ETH
             msg.sender.transfer(amount);
+            emit TokenWithdrawn(0x0000000000000000000000000000000000000000, amount);
             return;
         }
         //validate if account has enough token balance
         require(ERC20(token).balanceOf(address(this)) >= amount, 'not enough token balance');
         //transfer token
         ERC20(token).transfer(msg.sender, amount);
+        emit TokenWithdrawn(token, amount);
     }
 
     /** executes given trade on given DEX (to field)*/
@@ -132,6 +139,7 @@ contract TradeAccount {
         //revert if trade execution fails
         (bool success,) = address(to).call(data);
         require(success, 'trade execution failed');
+        emit TradeExecutedSuccessfully(tradeId);
         return success;
     }
     
@@ -143,6 +151,7 @@ contract TradeAccount {
         //check if sender is account owner
         require(msg.sender == owner, 'only owner is authorised');
         trades[tradeId] = tradeHash;
+        emit TradeStoredSuccessfully(tradeId);
     }
     
 
