@@ -1,4 +1,4 @@
-<h1 align="center">Taṉṉāṭci</h1>
+<h2>Taṉṉāṭci Readme</h2>
 
 :robot: Automated condition-based DEX trading :rocket: 🛸
 
