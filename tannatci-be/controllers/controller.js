@@ -18,7 +18,7 @@ exports.postTrade = async (req, res, next) => {
 
   const trade = new Trade({
     ...tradeParams,
-    executed: false,
+    status: "open",
     hash: req.body.hash,
     string: JSON.stringify(tradeParams),
     nonce: req.body.nonce,
@@ -59,6 +59,23 @@ exports.getTrades = async (req, res, next) => {
       message: "Fetched trades successfully",
       trades: allTrades
     });
+  } catch (err) {
+    if (!err.statusCode) {
+      err.statusCode = 500;
+    }
+    next(err);
+  }
+
+}
+
+exports.cancelTrade = async (req, res, next) => {
+  const accountAddress = req.params.accountAddress;
+  const tradeId = req.params.tradeId;
+  try {
+    const trade = await Trade.findOne({account: accountAddress, _id: tradeId});
+    trade.status = "cancelled";
+    await trade.save();
+    res.status(200).json({ message: "Cancelled trade." });
   } catch (err) {
     if (!err.statusCode) {
       err.statusCode = 500;

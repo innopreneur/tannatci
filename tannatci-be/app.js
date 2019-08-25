@@ -43,7 +43,7 @@ setInterval(async () => {
 
   console.log(price_change_24h)
   trades.forEach(async (trade) => {
-    if (!trade.executed && trade.value > price_change_24h) {
+    if (!trade.status === "open" && trade.value > price_change_24h) {
       console.log("execute!")
       const dexagData = await fetch(`https://api.dex.ag/trade?from=ETH&to=DAI&fromAmount=${trade.amount}&dex=best`)
       const dexagDataJson = await dexagData.json();
@@ -51,9 +51,8 @@ setInterval(async () => {
       trade.dexag = dexagDataJson.trade
       console.log("object sent to contract: ", {tradeId: trade.nonce, trade: trade.hash, tradeHash: trade.hash, signature: trade.signature, data: dexagDataJson.trade.data, address: dexagDataJson.trade.to})
       // const execution = await logic.executeTrade({tradeId: trade.nonce, trade: trade.hash, tradeHash: trade.hash, signature: trade.signature, data: dexagDataJson.trade.data, address: dexagDataJson.trade.to});
-      trade.executed = true;
+      trade.status = "closed";
       await trade.save();
-      // in res set trade.executed to TRUE
     }
   })
 }, 3000);

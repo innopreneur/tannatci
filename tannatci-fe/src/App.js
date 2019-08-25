@@ -57,7 +57,7 @@ class App extends Component {
   getFactoryContract = async () => {
     const factory = await new web3.eth.Contract(
       factoryAbi,
-      "0xB621d299a16B583f6F4fb0D96Bbe0C486AB1DB5F"
+      "0x4f9a9Cf12EF461f6aE8bbFFF1c93C449A110991d"
     );
     this.setState({factory})
   }

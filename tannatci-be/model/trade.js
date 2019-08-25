@@ -19,8 +19,8 @@ const tradeSchema = new Schema(
       type: Number,
       required: true
     },
-    executed: {
-      type: Boolean,
+    status: {
+      type: String,
       required: true
     },
     hash: {
