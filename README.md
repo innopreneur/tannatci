@@ -29,3 +29,11 @@ The client server is spun up at `localhost:3050` and it proxies internally to th
 The local directories are mounted into the containers, so changes will reflect immediately. However, changes to package.json will likely need to a rebuild: `docker-compose down && docker-compose build && docker-compose up`.
 
 ### Notes
+
+## 🏛 Licenses
+
+Al code and documentation, is under:
+
+The MIT License
+
+[Full MIT license text](https://github.com/kremalicious/portfolio/blob/master/LICENSE)
