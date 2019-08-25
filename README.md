@@ -8,7 +8,7 @@
 
 ## Development
 
-The site is a single page React app, created with [`create-react-app`](https://github.com/facebook/create-react-app).
+The app is a single page React app, created with [`create-react-app`](https://github.com/facebook/create-react-app).
 
 To start development, clone this repo, install all dependencies, and start the development server:
 
