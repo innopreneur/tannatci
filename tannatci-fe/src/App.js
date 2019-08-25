@@ -12,7 +12,7 @@ import axios from "axios";
 import abi from "./abi/TradeAccount.json";
 import factoryAbi from "./abi/TradeAccountsFactory.json";
 
-
+console.log(process.env.REACT_APP_TRADE_FACTORY)
 const web3 = new Web3(Web3.givenProvider);
 
 class App extends Component {
@@ -21,7 +21,9 @@ class App extends Component {
     networkName: "",
     currentAccount: "",
     balance: "",
-    account: null
+    account: null,
+    txInProgress: false,
+    latestTx: null
   };
 
   async componentDidMount() {
@@ -57,10 +59,11 @@ class App extends Component {
   getFactoryContract = async () => {
     const factory = await new web3.eth.Contract(
       factoryAbi,
-      "0x908ABFB19e60C04AA4314fB640D4D12F8e850e34"
+      '0x1e6b33271cd42d8f7b80105077ef917be62174a6'
     );
     this.setState({factory})
   }
+
   getAccount = async () => {
     const tradeAccount = await this.state.factory.methods.tradeAccounts(this.state.currentAccount).call()
     if (tradeAccount) {
@@ -74,6 +77,18 @@ class App extends Component {
     });
   }
 
+  async checkProgress(){
+    if (this.state.latestTx != null) {
+      //start loading
+      console.log("in progress")
+      let txReceipt = await window.web3.eth.getTransactionReceipt(latestTx);
+      if(txReceipt != null){
+        this.setState({latestTx: null, txInProgress: false})
+        console.log("not in progress")
+      }
+    
+    }
+  }
   async getBalance(account){
     let _balance = await web3.eth.getBalance(account);
     let balance = web3.utils.fromWei(_balance, 'ether');
@@ -114,14 +129,9 @@ class App extends Component {
       });
   };
 
-  submitTrade = async () => {
-    // changePercent: "5.0"
-    // changePeriod: "24 hours"
-    // fromAmount: "0.0"
-    // fromToken: "ETH"
-    // toToken: "ETH"
-    // tradeType: "Buy"
-    const tradeParams = { type: "buy", amount: "1", value: "-4" };
+  async submitTrade(tradeParams){
+    console.log("Submit Trade")
+    console.log(tradeParams);
     const hash = web3.utils.sha3(JSON.stringify(tradeParams));
 
     let signature = await web3.eth.personal.sign(
@@ -140,6 +150,7 @@ class App extends Component {
     await contract.methods.storeTrade(hash, nonce).send({
       from: this.state.currentAccount
     });
+
     const tradeData = {
       tradeParams: tradeParams,
       signature: signature,
@@ -157,7 +168,6 @@ class App extends Component {
       <Container>
         <Row className="newOrderContainer">
             <NewOrder onSubmit={this.submitTrade.bind(this)}/>
-            <p>Your Account: {this.state.account}</p>
         </Row>
         <Row>
           <Navbar ethBalance={this.state.balance} account={this.state.account}/>
@@ -189,6 +199,11 @@ class App extends Component {
               currentAccount={this.state.currentAccount}
               currentNetwork={this.state.networkName}
               balance={this.state.balance} />
+            </Col>
+          </Row>
+          <Row className="trade-account-container">
+            <Col>
+            <p className="trade-account-label">Your Tannatci Account - {this.state.account}</p>
             </Col>
           </Row>
           {

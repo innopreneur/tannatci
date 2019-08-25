@@ -12,3 +12,12 @@
 .header {
   margin-top: 2rem;
 }
+
+.trade-account-container {
+  margin-top: 5rem;
+}
+
+.trade-account-label {
+  font-size: 1.2rem;
+  font-weight: 500
+}

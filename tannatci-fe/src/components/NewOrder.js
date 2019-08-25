@@ -105,15 +105,24 @@ export default class NewOrder extends React.Component {
     });
   }
 
-  processOrder() {
-    //TODO
+  processOrder(order) {
+    let newOrder = {};
+    newOrder['type'] = order.tradeType;
+    newOrder['from'] = order.fromToken;
+    newOrder['to'] = order.toToken;
+    newOrder['amount'] = order.fromAmount;
+    if(order.condition == 'goes up by'){
+      newOrder['percentage'] = order.changePercent;
+    } else {
+      newOrder['percentage'] = `-${order.changePercent}`;
+    }
+    newOrder['timeFrame'] = '24h';
+    return newOrder;
   }
 
   submitOrder() {
-    console.log(this.state);
-    let url = `http://4a722a21.ngrok.io/api/trade/${this.props.currentAccount}`;
-    let body = this.processOrder();
-    //TODO fetch
+    let order = this.processOrder(this.state);
+    this.props.onSubmit(order);
   }
 
   render() {
@@ -160,8 +169,7 @@ export default class NewOrder extends React.Component {
         <Row className="create-order-btn">
           <Col>
             <CButton
-              onClick={this.props.onSubmit}
-              // onClick={this.submitOrder.bind(this)}
+              onClick={this.submitOrder.bind(this)}
               {...createOrderProps}
             >
               Create Order
