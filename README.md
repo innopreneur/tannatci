@@ -2,7 +2,7 @@
 
 :robot: Automated condition-based DEX trading :rocket: 🛸
 
-> 🖲 🕹 Landing page for Ocean Protocol https://dsfdsf.com
+> 🖲 🕹 Landing page for tannatci https://dsfdsf.com
 
 ### This project is developed as part of ETHBerlin Hackathon.
 
