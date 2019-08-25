@@ -1,4 +1,4 @@
-# tannatci
+# Taṉṉāṭci
 :robot: Automated condition-based DEX trading :dollar::euro:
 
 
