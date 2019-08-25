@@ -4,7 +4,7 @@ const {web3, web3Network} = require("./web3");
 const compiledContract = require("./build/TradeAccount.json");
 const circularJSON = require('circular-json');
 
-const deploy = async (mymessage) => {
+const deployAccount = async (mymessage) => {
     try {
         // set the receipt path 
         const receiptPath = path.resolve("ethereum","receipt-"+web3Network+".json");
@@ -32,7 +32,7 @@ const deploy = async (mymessage) => {
         )
         .deploy({data: compiledContract.bytecode, arguments: [accounts[0]]})
         .send({gas: 3000000, from: accounts[0]});
-        console.log(`Contract deployed to ${result.options.address}`);
+        console.log(`Account contract deployed to ${result.options.address}`);
     
 
         // CircularJson is converting nested object into string which can be then saved as json
@@ -50,4 +50,4 @@ const deploy = async (mymessage) => {
 }
 
 // deploy("hello world");
-module.exports = deploy;
+module.exports = deployAccount;

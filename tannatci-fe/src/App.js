@@ -7,7 +7,9 @@ import Logo from "./components/Logo";
 import Account from "./components/Account";
 import { Container, Row, Col } from "react-bootstrap";
 import axios from "axios";
-import ABI from "./abi/TradeAccount.json";
+import abi from "./abi/TradeAccount.json";
+import factoryAbi from "./abi/TradeAccountsFactory.json";
+
 
 const web3 = new Web3(Web3.givenProvider);
 
@@ -17,7 +19,7 @@ class App extends Component {
     networkName: "",
     currentAccount: "",
     balance: "",
-    hasAccount: false
+    account: null
   };
 
   async componentDidMount() {
@@ -44,9 +46,33 @@ class App extends Component {
         
       }
 
+      await this.getFactoryContract()
+      await this.getAccount()
+
       
     }
     
+  }
+
+  getFactoryContract = async () => {
+    const factory = await new web3.eth.Contract(
+      factoryAbi,
+      "0xc60FE51D313A157007747FC05ac4918Bb8cD685D"
+    );
+    this.setState({factory})
+  }
+  getAccount = async () => {
+    const tradeAccount = await this.state.factory.methods.tradeAccounts(this.state.currentAccount).call()
+    if (tradeAccount) {
+      this.setState({account: tradeAccount});
+    }
+    console.log('tradeAccount of user: ', tradeAccount);
+  }
+
+  createAccount = async () => {
+    this.state.factory.methods.createAccount().send({
+      from: this.state.currentAccount
+    });
   }
 
   async getBalance(account){
@@ -90,6 +116,12 @@ class App extends Component {
   };
 
   submitTrade = async () => {
+    // changePercent: "5.0"
+    // changePeriod: "24 hours"
+    // fromAmount: "0.0"
+    // fromToken: "ETH"
+    // toToken: "ETH"
+    // tradeType: "Buy"
     const tradeParams = { type: "buy", amount: "1", value: "-2" };
     const hash = web3.utils.sha3(JSON.stringify(tradeParams));
 
@@ -100,8 +132,8 @@ class App extends Component {
     // send transaction to store trade
 
     const contract = await new web3.eth.Contract(
-      ABI,
-      "0x3867E57773689a4c0BD84835A5A070b704bDfb91"
+      abi,
+      this.state.account
     );
 
     const nonce = await web3.eth.getTransactionCount(this.state.currentAccount);
@@ -116,7 +148,7 @@ class App extends Component {
       nonce: nonce,
       hash: hash
     };
-    axios.post(`api/trade/123`, tradeData).then(res => {
+    axios.post(`api/trade/${this.state.account}`, tradeData).then(res => {
       console.log(res);
     });
   };
@@ -125,6 +157,7 @@ class App extends Component {
     return (
         <Row className="newOrderContainer">
             <NewOrder onSubmit={this.submitTrade.bind(this)}/>
+            <p>Your Account: {this.state.account}</p>
         </Row>
     )
   }
@@ -133,7 +166,7 @@ class App extends Component {
     return (
       <Row className="newOrderContainer">
           <NewAccount 
-            onCreate={this.handleAccountCreation.bind(this)}
+            onCreate={this.createAccount}
             />
       </Row>
     )
@@ -161,7 +194,7 @@ class App extends Component {
             </Col>
           </Row>
           {
-            this.state.hasAccount ? 
+            this.state.account && this.state.account !== "0x0000000000000000000000000000000000000000" ? 
             this._renderNewOrder() : 
             this._renderNewAccount()
             }
