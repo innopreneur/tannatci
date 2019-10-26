@@ -3,8 +3,6 @@
 :robot: Automated condition-based DEX trading :rocket: 🛸
 
 
-### This project is developed as part of ETHBerlin Hackathon.
-
 
 ## Development
 
